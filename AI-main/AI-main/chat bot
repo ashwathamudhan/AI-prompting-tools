@@ -1,7 +1,7 @@
   import os
 import openai
 import gradio as gr
-openai.api_key = "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"
+openai.api_key = "sk-03IpeuyIxMhgzvrY4vPoT3BlbkFJGRsxDSEFd7**********"
 
 start_sequence = "\nAI:"
 restart_sequence = "\nHuman: " 
