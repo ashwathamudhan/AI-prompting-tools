@@ -1,0 +1,24 @@
+import numpy as np
+import math
+from PIL import Image
+image_path = "original_image.jpg"
+rotation_amount_degree = 45
+img = Image.open(image_path)
+img_array = np.array(img)
+rotation_amount_rad = rotation_amount_degree * np.pi / 180.0
+height, width, num_channels = img_array.shape
+max_len = int(math.sqrt(height * height + width * width))
+rotated_image = np.zeros((max_len, max_len, num_channels), dtype=np.uint8)
+rotated_height, rotated_width, _ = rotated_image.shape
+mid_row = int((rotated_height + 1) / 2)
+mid_col = int((rotated_width + 1) / 2)
+for r in range(rotated_height):
+    for c in range(rotated_width):
+        src_row = (r - mid_row) * math.cos(rotation_amount_rad) + (c - mid_col) * math.sin(rotation_amount_rad)
+        src_col = -(r - mid_row) * math.sin(rotation_amount_rad) + (c - mid_col) * math.cos(rotation_amount_rad)
+        src_row = int(round(src_row + mid_row))
+        src_col = int(round(src_col + mid_col))
+        if src_row >= 0 and src_row < height and src_col >= 0 and src_col < width:
+                        rotated_image[r, c, :] = img_array[src_row, src_col, :]
+pil_image = Image.fromarray(rotated_image[:height, :width, :])    
+pil_image.save("rotated_image.jpg")
